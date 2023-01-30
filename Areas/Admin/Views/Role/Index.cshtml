@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Users Roles";
+}
+
+
+<h3 class="text-center text-info">@TempData["save"]</h3>
+<div class="row  offset-2">
+    <div class="col-6 ">
+        <h1 class="text-primary">Roles</h1>
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Role">
+            &nbsp; New Role
+        </a>
+    </div>
+</div>
+
+<hr />
+
+<form method="post">
+    <div class="row">
+        <div class="col-2 offset-2"><input type="number" class="form-control" name="lowamount" /> </div>
+        <div class="col-2 offset-2"><input type="number" class="form-control" name="highamount" /> </div>
+        <div class="col-2 offset-2"><input type="submit" value="Search" class="btn btn-primary" /> </div>
+
+
+    </div>
+</form>
+
+
+<div class="offset-2">
+    <table class="table table-striped table-hover" id="myTable">
+        <thead class="table-info">
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in ViewBag.Roles)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    
+                    <td>
+
+                        <partial name="_PartialView" model="@item.Id"></partial>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+@section scripts{
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+
+    </script>
+}
+

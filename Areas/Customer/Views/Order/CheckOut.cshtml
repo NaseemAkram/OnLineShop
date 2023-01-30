@@ -1,0 +1,142 @@
+﻿@model OnLineShop.Models.Order
+@{
+    ViewData["Title"] = " Order Details";
+}
+@using OnLineShop.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpcontextAccessor
+@{
+
+    List<Products> products = HttpcontextAccessor.HttpContext.Session.GetObjectFromJson<List<Products>>("products");
+
+    if (products == null)
+    {
+        products = new List<Products>();
+    }
+
+}
+
+
+
+
+
+<h1 class="text-info text-center ">Product Details</h1>
+<br />
+
+
+<div>
+    <form method="post" action="CheckOut" enctype="multipart/form-data">
+
+        <div class="p-4 rounded-circle row">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+            </div>
+            <div class="col-5">
+
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Name"  class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                   
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="PhoneNo"></label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="PhoneNo" class="form-control" />
+                    </div>
+                    <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                </div>
+                <br />
+
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Address"></label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Address" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+
+
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Email"></label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="OrderDate"></label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="OrderDate" class="form-control"  />
+                    </div>
+                    <span asp-validation-for="OrderDate" class="text-danger"></span>
+                </div>
+
+
+
+            </div>
+
+            <br />
+
+
+            <div class="col-7">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var items in products)
+                        {
+                            <tr>
+                                <td><img src="~/@items.Image" height="100px" width="180px" /></td>
+                                <td>@items.Name</td>
+                                <td>@items.Price</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <div class="text-end">
+                    <h3 >Total Price: @products.Sum(p=>p.Price)</h3>
+                </div>
+            </div>
+            <div class="form-group text-end">
+                <input type="submit" value="Place Order" class="btn btn-success" />
+            </div>
+
+            <br />
+
+           
+
+
+
+
+        </div>
+    </form>
+</div>
+
